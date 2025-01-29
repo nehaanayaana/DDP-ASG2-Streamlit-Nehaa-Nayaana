@@ -1,8 +1,8 @@
-import requests
-import pandas as pd
-from datetime import datetime
 import streamlit as st
+import pandas as pd
 from io import BytesIO
+import requests
+from datetime import datetime
 
 st.title("Bus Arrival Timings")
 
@@ -10,20 +10,22 @@ st.title("Bus Arrival Timings")
 @st.cache_data
 def load_data_from_github():
     try:
-        # Set the GitHub raw URL of the Excel file
-        url = "https://github.com/nehaanayaana/DDP-ASG2-Streamlit-Nehaa-Nayaana/blob/0ff9b826b7fd45f0f5752d491ce8e80e7e8419f2/data/DDP_ASG2_Nehaa%20Nayaana.xlsx"
+        # URL of the Excel file on GitHub
+        file_url = 'https://github.com/your-username/your-repository/raw/main/bus_arrival_data.xlsx'
         
-        # Fetch the Excel file from GitHub using requests
-        response = requests.get(url)
+        # Send a GET request to fetch the file
+        response = requests.get(file_url)
         
         # Check if the request was successful
         if response.status_code == 200:
-            # Load the Excel file into a pandas DataFrame
-            excel_file = BytesIO(response.content)
-            df = pd.read_excel(excel_file)
+            # Read the content of the response into a BytesIO object
+            file = BytesIO(response.content)
+            
+            # Load the Excel data into a DataFrame using openpyxl engine
+            df = pd.read_excel(file, engine='openpyxl')
             return df
         else:
-            st.error("Failed to load the Excel file from GitHub. Check the URL or try again.")
+            st.error(f"Failed to load the file, status code: {response.status_code}")
             return pd.DataFrame()
     except Exception as e:
         st.error(f"Error loading data from GitHub: {e}")
@@ -139,7 +141,6 @@ def display_bus_info(df):
 
             # Close the main service box
             st.markdown("</div>", unsafe_allow_html=True)
-
 
 # Load data from GitHub
 df = load_data_from_github()
