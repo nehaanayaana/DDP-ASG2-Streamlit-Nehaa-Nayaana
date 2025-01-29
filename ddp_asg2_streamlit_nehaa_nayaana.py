@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.title("Bus Arrival Timings from Google Sheets (CSV Export)")
+st.title("Bus Arrival Timings")
 
 # Function to load data from the Google Sheet CSV
 def load_data_from_google_sheets():
