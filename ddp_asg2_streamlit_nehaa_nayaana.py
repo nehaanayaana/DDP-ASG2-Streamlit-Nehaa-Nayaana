@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
-from io import BytesIO
 import requests
+from io import BytesIO
 from datetime import datetime
 
 st.title("Bus Arrival Timings")
@@ -10,23 +10,22 @@ st.title("Bus Arrival Timings")
 @st.cache_data
 def load_data_from_github():
     try:
-        # URL of the Excel file on GitHub
+        # URL of the raw Excel file on GitHub
         file_url = 'https://raw.githubusercontent.com/nehaanayaana/DDP-ASG2-Streamlit-Nehaa-Nayaana/main/data/DDP_ASG2_Nehaa%20Nayaana.xlsx'
-        
-        # Send a GET request to fetch the file
+
+        # Send a GET request to fetch the raw file
         response = requests.get(file_url)
-        
-        # Check if the request was successful
-        if response.status_code == 200:
-            # Read the content of the response into a BytesIO object
+
+        # Ensure the file is an Excel file by checking content-type
+        if 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' in response.headers['Content-Type']:
+            # Read the Excel file from the response content using openpyxl
             file = BytesIO(response.content)
-            
-            # Load the Excel data into a DataFrame using openpyxl engine
-            df = pd.read_excel(file, engine='openpyxl')  # Ensure openpyxl is used
+            df = pd.read_excel(file, engine='openpyxl')
             return df
         else:
-            st.error(f"Failed to load the file, status code: {response.status_code}")
+            st.error("The file is not in the expected Excel format.")
             return pd.DataFrame()
+
     except Exception as e:
         st.error(f"Error loading data from GitHub: {e}")
         return pd.DataFrame()
