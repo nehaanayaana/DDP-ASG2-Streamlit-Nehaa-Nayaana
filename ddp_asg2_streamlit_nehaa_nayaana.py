@@ -1,16 +1,32 @@
-import streamlit as st
+import requests
 import pandas as pd
 from datetime import datetime
+import streamlit as st
+from io import BytesIO
 
 st.title("Bus Arrival Timings")
 
 # Cache data loading for efficiency
 @st.cache_data
-def load_data(file_path):
+def load_data_from_github():
     try:
-        return pd.read_excel(file_path)
+        # Set the GitHub raw URL of the Excel file
+        url = "https://github.com/nehaanayaana/DDP-ASG2-Streamlit-Nehaa-Nayaana/blob/0ff9b826b7fd45f0f5752d491ce8e80e7e8419f2/data/DDP_ASG2_Nehaa%20Nayaana.xlsx"
+        
+        # Fetch the Excel file from GitHub using requests
+        response = requests.get(url)
+        
+        # Check if the request was successful
+        if response.status_code == 200:
+            # Load the Excel file into a pandas DataFrame
+            excel_file = BytesIO(response.content)
+            df = pd.read_excel(excel_file)
+            return df
+        else:
+            st.error("Failed to load the Excel file from GitHub. Check the URL or try again.")
+            return pd.DataFrame()
     except Exception as e:
-        st.error(f"Error loading file: {e}")
+        st.error(f"Error loading data from GitHub: {e}")
         return pd.DataFrame()
 
 # Function to get color-coded labels for seating status
@@ -112,7 +128,8 @@ def display_bus_info(df):
                     st.markdown(f"- **Arrival Time:** {estimated_time}")
 
                     # Expander for viewing more details if needed
-                    with st.expander(f"View More for Bus {bus_no}") :
+                    with st.expander(f"View More for Bus {bus_no}"):
+
                         st.markdown(f"- **Seating Status:** <span style='color:{color}; font-weight:bold;'>{seating_status}</span>", unsafe_allow_html=True)
                         st.markdown(f"- **Wheelchair Accessible:** {row['Feature']}")
                         st.markdown(f"- **Operator:** {row['Operator']}")
@@ -124,9 +141,8 @@ def display_bus_info(df):
             st.markdown("</div>", unsafe_allow_html=True)
 
 
-# File path for Google Sheets (replace with your actual file ID and range)
-file_url = 'https://docs.google.com/spreadsheets/d/19QMjaTsJjkReoZqAo4esMjmDr3YY74bQyUz5ZzHAaaQ/export?format=xlsx'
-df = load_data(file_url)
+# Load data from GitHub
+df = load_data_from_github()
 
 # Display bus information
 if not df.empty:
