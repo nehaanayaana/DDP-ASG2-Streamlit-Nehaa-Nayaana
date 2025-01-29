@@ -16,14 +16,14 @@ def load_data_from_github():
         # Send a GET request to fetch the raw file
         response = requests.get(file_url)
 
-        # Ensure the file is an Excel file by checking content-type
-        if 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' in response.headers['Content-Type']:
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
             # Read the Excel file from the response content using openpyxl
             file = BytesIO(response.content)
             df = pd.read_excel(file, engine='openpyxl')
             return df
         else:
-            st.error("The file is not in the expected Excel format.")
+            st.error(f"Error fetching file. Status code: {response.status_code}")
             return pd.DataFrame()
 
     except Exception as e:
