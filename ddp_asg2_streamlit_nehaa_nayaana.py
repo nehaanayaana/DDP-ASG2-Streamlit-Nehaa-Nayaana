@@ -24,7 +24,17 @@ def display_bus_info(df):
 
     # Display the dataframe (for testing)
     st.markdown(f"### Bus Information")
+    
+    # Checking the structure of the dataframe
+    st.write("Dataset structure:")
+    st.write(df.columns)  # Display column names to understand the data structure
+    
+    # Displaying the first few rows for a quick preview
+    st.write("Dataset Preview:")
     st.write(df.head())  # Show the first few rows
+
+    # Additional logic to display specific columns or rows based on your needs
+    # Here, you can process or display any relevant data
 
 # Load and display data
 df = load_data_from_google_sheets()
