@@ -10,9 +10,9 @@ st.title("Bus Arrival Timings")
 @st.cache_data
 def load_data_from_github():
     try:
-        # URL of the raw Excel file on GitHub
+        # URL of the Excel file on GitHub
         file_url = 'https://raw.githubusercontent.com/nehaanayaana/DDP-ASG2-Streamlit-Nehaa-Nayaana/main/data/DDP_ASG2_Nehaa%20Nayaana.xlsx'
-
+        
         # Send a GET request to fetch the file
         response = requests.get(file_url)
         
@@ -22,7 +22,7 @@ def load_data_from_github():
             file = BytesIO(response.content)
             
             # Load the Excel data into a DataFrame using openpyxl engine
-            df = pd.read_excel(file, engine='openpyxl')
+            df = pd.read_excel(file, engine='openpyxl')  # Ensure openpyxl is used
             return df
         else:
             st.error(f"Failed to load the file, status code: {response.status_code}")
