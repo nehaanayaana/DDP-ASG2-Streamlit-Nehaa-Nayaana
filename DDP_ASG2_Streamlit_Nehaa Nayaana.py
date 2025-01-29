@@ -1,16 +1,29 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+from gspread_pandas import Client
 
 st.title("Bus Arrival Timings")
 
 # Cache data loading for efficiency
 @st.cache_data
-def load_data(file_path):
+def load_data_from_gsheet():
     try:
-        return pd.read_excel(file_path)
+        # Set up authentication using Google Sheets API
+        gc = Client(scope=["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"])
+        
+        # Open the Google Sheet by its title or URL
+        spreadsheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/19QMjaTsJjkReoZqAo4esMjmDr3YY74bQyUz5ZzHAaaQ/edit?usp=sharing')
+        
+        # Select the first sheet
+        worksheet = spreadsheet.sheet1
+        
+        # Get data from the sheet into a pandas DataFrame
+        df = worksheet.get_as_dataframe()
+        
+        return df
     except Exception as e:
-        st.error(f"Error loading file: {e}")
+        st.error(f"Error loading data from Google Sheets: {e}")
         return pd.DataFrame()
 
 # Function to get color-coded labels for seating status
@@ -113,6 +126,7 @@ def display_bus_info(df):
 
                     # Expander for viewing more details if needed
                     with st.expander(f"View More for Bus {bus_no}"):
+
                         st.markdown(f"- **Seating Status:** <span style='color:{color}; font-weight:bold;'>{seating_status}</span>", unsafe_allow_html=True)
                         st.markdown(f"- **Wheelchair Accessible:** {row['Feature']}")
                         st.markdown(f"- **Operator:** {row['Operator']}")
@@ -124,9 +138,8 @@ def display_bus_info(df):
             st.markdown("</div>", unsafe_allow_html=True)
 
 
-# Path to your Excel file
-file_path = 'C:/Users/nehaa/OneDrive - Ngee Ann Polytechnic/Y2 S2/DDP/Assignment 2/DDP_ASG2_Nehaa Nayaana.xlsx'
-df = load_data(file_path)
+# Load data from Google Sheets
+df = load_data_from_gsheet()
 
 # Display bus information
 if not df.empty:
