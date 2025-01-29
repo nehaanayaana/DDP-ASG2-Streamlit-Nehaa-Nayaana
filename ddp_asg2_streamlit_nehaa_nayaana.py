@@ -11,8 +11,8 @@ st.title("Bus Arrival Timings")
 def load_data_from_github():
     try:
         # URL of the raw Excel file on GitHub
-        file_url = 'https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fraw.githubusercontent.com%2Fnehaanayaana%2FDDP-ASG2-Streamlit-Nehaa-Nayaana%2Frefs%2Fheads%2Fmain%2Fdata%2FDDP_ASG2_Nehaa%2520Nayaana.xlsx&wdOrigin=BROWSELINK'
-        
+        file_url = 'https://raw.githubusercontent.com/nehaanayaana/DDP-ASG2-Streamlit-Nehaa-Nayaana/main/data/DDP_ASG2_Nehaa%20Nayaana.xlsx'
+
         # Send a GET request to fetch the file
         response = requests.get(file_url)
         
