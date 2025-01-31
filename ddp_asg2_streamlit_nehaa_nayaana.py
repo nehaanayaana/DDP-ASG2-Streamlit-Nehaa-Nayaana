@@ -120,10 +120,11 @@ def display_bus_info(df):
                         st.markdown(f"- **Seating Status:** <span style='color:{color}; font-weight:bold;'>{seating_status}</span>", unsafe_allow_html=True)
                         st.markdown(f"- **Wheelchair Accessible:** {row['Feature']}")
                         st.markdown(f"- **Operator:** {row['Operator']}")
-                        if row['FrequencyRange'] is None:
+                        if pd.isna(row['FrequencyRange']):
                             st.markdown(f"- **Frequency Range:** -")
                         else:
                             st.markdown(f"- **Frequency Range:** {row['FrequencyRange']}")
+
 
 
                     st.markdown("</div>", unsafe_allow_html=True)
