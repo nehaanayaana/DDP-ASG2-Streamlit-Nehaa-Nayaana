@@ -7,7 +7,7 @@ st.title("Bus Arrival Timings")
 def load_data_from_google_sheets():
     try:
         # URL of the published Google Sheet (replace with your own)
-        sheet_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3tnFE4OOgrP20HQ2g5h8BWDNJISeQjQ5VnNjEB69-OnMoosodQwp49ErtBn_PEsFKxaOa8oCIhz_f/pub?output=csv"
+        sheet_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRpSB60wOc8ydF4EYFfmw-vZa_N8zBUdMf4mm_ffy82bDqvIsDPNOuR3AHSO3FJ1SK20yOtSBcIG2wl/pub?output=csv"
         
         # Load the CSV into a DataFrame using pandas
         df = pd.read_csv(sheet_url)
