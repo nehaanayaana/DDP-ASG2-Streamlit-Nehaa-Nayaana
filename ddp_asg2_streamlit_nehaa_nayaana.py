@@ -118,7 +118,7 @@ def display_bus_info(df):
                     with st.expander(f"View More for Bus {bus_no}"):
 
                         st.markdown(f"- **Seating Status:** <span style='color:{color}; font-weight:bold;'>{seating_status}</span>", unsafe_allow_html=True)
-                        st.markdown(f"- **Bus Type:** {row['Load']}")
+                        st.markdown(f"- **Bus Type:** {row['Type']}")
                         st.markdown(f"- **Wheelchair Accessible:** {row['Feature']}")
                         st.markdown(f"- **Operator:** {row['Operator']}")
                         if pd.isna(row['FrequencyRange']):
