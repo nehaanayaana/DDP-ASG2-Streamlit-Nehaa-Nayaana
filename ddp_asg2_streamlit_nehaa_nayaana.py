@@ -96,7 +96,7 @@ def display_bus_info(df):
 
                 with cols[idx]:
                     # Display the bus arrival details inside the columns
-                    st.markdown(f"<div style='border: 2px solid #eee; padding: 15px; border-radius: 5px;'>", unsafe_allow_html=True)
+                    # st.markdown(f"<div style='border: 2px solid #eee; padding: 15px; border-radius: 5px;'>", unsafe_allow_html=True)
 
                     # Display the bus type icon
                     bus_icon = get_bus_type_icon(row['Type'])
